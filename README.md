@@ -47,7 +47,7 @@ Selected with `--env`:
 
 A causal transformer over fused state/action tokens, shared across all versions:
 
-- fused 4-d token `[sₓ, s_y, aₓ, a_y]` → `Linear(4, 64)`
+- fused 4-d token `[s_x, s_y, a_x, a_y]` → `Linear(4, 64)`
 - learned (additive) positional embeddings
 - 2 × `TransformerEncoderLayer`, `d_model=64`, `nhead=2`, GELU, causal mask
 
