@@ -59,5 +59,7 @@ tensorboard/
 /v1/step_0.15
 /v1/*.csv
 /v1/*.txt
-/v2
+/v2/4room/
+/v2/8room/
+/v2/decoy/
 /v3
