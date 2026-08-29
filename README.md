@@ -1,4 +1,8 @@
-# transformer_shortest_path
+# VetoFormer
+
+**Online cost-predicting transformers with a self-veto for shortest-path planning in continuous mazes.**
+
+*(repo: `transformer_shortest_path`)*
 
 Online transformer training for **cost-to-come estimation** in continuous 2-D
 maze environments, with sampling-based planners (RRT, Go-Explore RRT) as
