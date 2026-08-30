@@ -71,11 +71,3 @@ tensorboard/
 /v3/*.txt
 /v3/*.csv
 /v3/*.png
-/v3/node_visit_summary.py
-/v3/plot_mu_ema_median_iqr.py
-/v3/plot_loss.py
-/v3/plot_node_alpha_comparison.py
-/v3/plot_node_mu_ema.py
-/v3/save_node_values.py
-/v3/online_cost_transformer_2.py
-/v3/plot_field_mae.py
