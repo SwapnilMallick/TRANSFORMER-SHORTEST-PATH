@@ -69,5 +69,4 @@ tensorboard/
 /v3/results_rrt/
 /v3/mu_ema_median_iqr/
 /v3/*.txt
-/v3/*.csv
 /v3/*.png
