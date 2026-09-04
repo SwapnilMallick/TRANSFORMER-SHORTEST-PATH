@@ -70,3 +70,9 @@ tensorboard/
 /v3/mu_ema_median_iqr/
 /v3/*.txt
 /v3/*.png
+/v_robosuite/
+/new_maze_envs/results_go_explore/
+/new_maze_envs/*.png
+
+# Miscellaneous
+/v3/MEMORY.md
