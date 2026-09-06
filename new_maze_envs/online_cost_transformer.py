@@ -794,50 +794,79 @@ def extract_and_save_paths(model, graph, g, prev, cfg, log):
 
 
 # --------------------------------------------------------------------------- #
-# Plot (maze, learned cost-to-come field, a sample successful trajectory)
+# Plot (maze, learned cost-to-come field evolving over iterations) -> GIF
 # --------------------------------------------------------------------------- #
-def plot_results(graph, g, walls, cfg, d_xy=None, t_xy=None,
-                 path="four_room_cost.png"):
+def plot_results_gif(frames, walls, cfg, d_xy=None, t_xy=None,
+                     path="four_room_cost.gif", frame_ms=400, hold_ms=1800):
+    """Animate the learned cost-to-come field across online iterations.
+
+    frames: list of (positions, dijkstra_costs) snapshots, one per iteration
+    (see main()). The final frame is held longer and has the roadmap-Dijkstra
+    and transformer paths overlaid -- the same content a single static plot
+    used to show. Color scale is fixed (from the final frame's finite costs)
+    so colors stay comparable across frames."""
     try:
+        import io
         import matplotlib
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
+        from PIL import Image
     except Exception as e:                                     # pragma: no cover
         print(f"[plot] skipped: {e}")
         return None
+    if not frames:
+        print("[plot] skipped: no frames")
+        return None
 
-    fig, ax = plt.subplots(figsize=(6, 6))
-    for (w0, w1) in walls:
-        ax.plot([w0[0], w1[0]], [w0[1], w1[1]], color="k", lw=2)
+    final_gv = frames[-1][1]
+    finite_final = final_gv[np.isfinite(final_gv)]
+    vmin, vmax = (float(finite_final.min()), float(finite_final.max())) \
+        if len(finite_final) else (0.0, 1.0)
 
-    P = np.array(graph.pos)
-    gv = np.array(g)
-    finite = np.isfinite(gv)
-    sc = ax.scatter(P[finite, 0], P[finite, 1], c=gv[finite], s=14,
-                    cmap="viridis", zorder=3)
-    fig.colorbar(sc, ax=ax, label="Dijkstra cost-to-come  g(s)")
+    images = []
+    n = len(frames)
+    for i, (P, gv) in enumerate(frames):
+        is_last = (i == n - 1)
+        fig, ax = plt.subplots(figsize=(6, 6))
+        for (w0, w1) in walls:
+            ax.plot([w0[0], w1[0]], [w0[1], w1[1]], color="k", lw=2)
 
-    # roadmap Dijkstra vs. transformer greedy descent
-    if d_xy is not None and len(d_xy):
-        ax.plot(d_xy[:, 0], d_xy[:, 1], color="crimson", lw=2.0, alpha=0.95,
-                zorder=5, label="roadmap Dijkstra (to nearest node)")
-    if t_xy is not None and len(t_xy):
-        ax.plot(t_xy[:, 0], t_xy[:, 1], color="deepskyblue", lw=1.7, ls="--",
-                alpha=0.95, zorder=6, label="transformer greedy path")
+        finite = np.isfinite(gv)
+        sc = ax.scatter(P[finite, 0], P[finite, 1], c=gv[finite], s=14,
+                        cmap="viridis", vmin=vmin, vmax=vmax, zorder=3)
+        fig.colorbar(sc, ax=ax, label="Dijkstra cost-to-come  g(s)")
 
-    ax.scatter(*cfg.start, c="white", edgecolors="k", s=90, zorder=5, label="start")
-    ax.scatter(*cfg.goal, marker="*", c="gold", edgecolors="k", s=240,
-               zorder=5, label="goal")
-    ax.add_patch(plt.Circle(cfg.goal, cfg.goal_radius, color="gold",
-                            alpha=0.25, zorder=2))
-    ax.set_xlim(-0.02, cfg.L + 0.02)
-    ax.set_ylim(-0.02, cfg.L + 0.02)
-    ax.set_aspect("equal")
-    ax.set_title(f"{cfg.env} ({env_label(cfg)}): cost-to-come + shortest paths")
-    ax.legend(loc="lower right", fontsize=8)
-    fig.tight_layout()
-    fig.savefig(path, dpi=130)
-    plt.close(fig)
+        # roadmap Dijkstra vs. transformer greedy descent (final frame only)
+        if is_last and d_xy is not None and len(d_xy):
+            ax.plot(d_xy[:, 0], d_xy[:, 1], color="crimson", lw=2.0, alpha=0.95,
+                    zorder=5, label="roadmap Dijkstra (to nearest node)")
+        if is_last and t_xy is not None and len(t_xy):
+            ax.plot(t_xy[:, 0], t_xy[:, 1], color="deepskyblue", lw=1.7, ls="--",
+                    alpha=0.95, zorder=6, label="transformer greedy path")
+
+        ax.scatter(*cfg.start, c="white", edgecolors="k", s=90, zorder=5, label="start")
+        ax.scatter(*cfg.goal, marker="*", c="gold", edgecolors="k", s=240,
+                   zorder=5, label="goal")
+        ax.add_patch(plt.Circle(cfg.goal, cfg.goal_radius, color="gold",
+                                alpha=0.25, zorder=2))
+        ax.set_xlim(-0.02, cfg.L + 0.02)
+        ax.set_ylim(-0.02, cfg.L + 0.02)
+        ax.set_aspect("equal")
+        title = f"{cfg.env} ({env_label(cfg)}): iter {i}/{n - 1}"
+        ax.set_title(title + "  (final: cost-to-come + shortest paths)" if is_last else title)
+        if is_last:
+            ax.legend(loc="lower right", fontsize=8)
+        fig.tight_layout()
+
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", dpi=110)
+        plt.close(fig)
+        buf.seek(0)
+        images.append(Image.open(buf).convert("RGB"))
+
+    durations = [frame_ms] * (len(images) - 1) + [hold_ms]
+    images[0].save(path, save_all=True, append_images=images[1:],
+                  duration=durations, loop=0)
     return path
 
 
@@ -877,6 +906,7 @@ def main(cfg: Config = Config()):
     D = []                                                    # replay buffer
     rows = []                                                 # per-iter metrics
     mu_ema: Dict[int, float] = {}                             # node id -> EMA(std) (MC dropout)
+    field_frames: List[Tuple[np.ndarray, np.ndarray]] = []    # (positions, dijkstra g) per iter, for the gif
 
     log(f"env = {cfg.env}  ({env_label(cfg)})  "
         f"start={cfg.start} goal={cfg.goal}  seed={cfg.seed}")
@@ -900,6 +930,7 @@ def main(cfg: Config = Config()):
         mu_ema_f.flush()
         # 5-6: build graph (already incremental) + Dijkstra labels
         g = graph.dijkstra(0)
+        field_frames.append((np.array(graph.pos), np.array(g)))
         # 7: train the transformer on the labelled buffer
         loss = train_transformer(model, D, g, cfg, rng)
         mae = field_mae(model, D, g, cfg)
@@ -932,8 +963,12 @@ def main(cfg: Config = Config()):
 
     d_xy, t_xy = extract_and_save_paths(model, graph, g, prev, cfg, log)
 
-    out = plot_results(graph, g, walls, cfg, d_xy=d_xy, t_xy=t_xy,
-                       path=os.path.join(cfg.outdir, f"{cfg.env}_cost.png"))
+    # replace the final iter's frame with the exact final (graph, g) used above,
+    # so the held/last frame matches what the paths were extracted from
+    if field_frames:
+        field_frames[-1] = (np.array(graph.pos), np.array(g))
+    out = plot_results_gif(field_frames, walls, cfg, d_xy=d_xy, t_xy=t_xy,
+                           path=os.path.join(cfg.outdir, f"{cfg.env}_cost.gif"))
     if out:
         log(f"[plot]    saved -> {out}")
     log(f"[log]     saved -> {log_path}")
