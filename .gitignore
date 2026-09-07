@@ -73,12 +73,17 @@ tensorboard/
 /v_robosuite/
 /new_maze_envs/results_go_explore/
 /new_maze_envs/*.png
+/new_maze_envs/*.txt
 /new_maze_envs/4room
 /new_maze_envs/8room
 /new_maze_envs/decoy
 /new_maze_envs/bug_trap
 /new_maze_envs/perfect_maze
 /new_maze_envs/spiral
+/new_maze_envs/mu_ema_median_iqr
+/new_maze_envs/plots_huber_loss
+/new_maze_envs/plots_field_mae
+/
 
 # Miscellaneous
 /v3/MEMORY.md
