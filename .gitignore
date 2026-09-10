@@ -83,7 +83,17 @@ tensorboard/
 /new_maze_envs/mu_ema_median_iqr
 /new_maze_envs/plots_huber_loss
 /new_maze_envs/plots_field_mae
-/
-
+/new_maze_envs_v2/4room/
+/new_maze_envs_v2/8room/
+/new_maze_envs_v2/decoy/
+/new_maze_envs_v2/bug_trap/
+/new_maze_envs_v2/perfect_maze/
+/new_maze_envs_v2/spiral/
+/new_maze_envs_v2/mu_ema_median_iqr/
+/new_maze_envs_v2/results_go_explore/
+/new_maze_envs_v2/*.png
+/new_maze_envs_v2/*.txt
+/new_maze_envs_v2/plots_huber_loss/
+/new_maze_envs_v2/plots_field_mae/
 # Miscellaneous
 /v3/MEMORY.md
