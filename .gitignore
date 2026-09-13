@@ -95,5 +95,18 @@ tensorboard/
 /new_maze_envs_v2/*.txt
 /new_maze_envs_v2/plots_huber_loss/
 /new_maze_envs_v2/plots_field_mae/
+/new_maze_envs_v3/4room/
+/new_maze_envs_v3/8room/
+/new_maze_envs_v3/decoy/
+/new_maze_envs_v3/bug_trap/
+/new_maze_envs_v3/perfect_maze/
+/new_maze_envs_v3/spiral/
+/new_maze_envs_v3/mu_ema_median_iqr/
+/new_maze_envs_v3/results_go_explore/
+/new_maze_envs_v3/*.png
+/new_maze_envs_v3/*.txt
+/new_maze_envs_v3/plots_huber_loss/
+/new_maze_envs_v3/plots_field_mae/
+
 # Miscellaneous
 /v3/MEMORY.md
