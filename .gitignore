@@ -107,6 +107,13 @@ tensorboard/
 /new_maze_envs_v3/*.txt
 /new_maze_envs_v3/plots_huber_loss/
 /new_maze_envs_v3/plots_field_mae/
+/new_maze_envs_v4/spiral/
+/new_maze_envs_v4/new_maze_envs_v4/
+/new_maze_envs_v4/retry_diagnostics/
+retry_diagnostics_run.out
+/new_maze_envs_v5/
+/new_maze_envs_v6/new_maze_envs_v6/
+/new_maze_envs_v6/*.pdf
 
 # Miscellaneous
 /v3/MEMORY.md
