@@ -114,6 +114,10 @@ retry_diagnostics_run.out
 /new_maze_envs_v5/
 /new_maze_envs_v6/new_maze_envs_v6/
 /new_maze_envs_v6/*.pdf
+/new_maze_envs_v6/*.txt
+/new_maze_envs_v6//new_maze_envs_v6/
+/new_maze_envs_v7/bit_star_results/
+/new_maze_envs_v7/*.txt
 
 # Miscellaneous
 /v3/MEMORY.md
