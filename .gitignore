@@ -70,7 +70,7 @@ tensorboard/
 /v3/mu_ema_median_iqr/
 /v3/*.txt
 /v3/*.png
-/v_robosuite/
+
 /new_maze_envs/results_go_explore/
 /new_maze_envs/*.png
 /new_maze_envs/*.txt
@@ -118,6 +118,11 @@ retry_diagnostics_run.out
 /new_maze_envs_v6//new_maze_envs_v6/
 /new_maze_envs_v7/bit_star_results/
 /new_maze_envs_v7/*.txt
+/v_robosuite_encoder/
+/v_robosuite/robosuite_results/
+/v_robosuite/robosuite_results_smoke/
+/v_robosuite/*.txt
+/v_robosuite/*.md
 
 # Miscellaneous
 /v3/MEMORY.md
