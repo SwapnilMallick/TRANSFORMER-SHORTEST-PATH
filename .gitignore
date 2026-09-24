@@ -118,11 +118,14 @@ retry_diagnostics_run.out
 /new_maze_envs_v6//new_maze_envs_v6/
 /new_maze_envs_v7/bit_star_results/
 /new_maze_envs_v7/*.txt
-/v_robosuite_encoder/
 /v_robosuite/robosuite_results/
 /v_robosuite/robosuite_results_smoke/
 /v_robosuite/*.txt
 /v_robosuite/*.md
+/v_robosuite_encoder_v2/
+/v_robosuite_encoder/*.png
+/v_robosuite_encoder/robosuite_encoder_results/
+/v_robosuite_encoder/robosuite_encoder_smoke/
 
 # Miscellaneous
 /v3/MEMORY.md
