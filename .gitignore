@@ -122,10 +122,21 @@ retry_diagnostics_run.out
 /v_robosuite/robosuite_results_smoke/
 /v_robosuite/*.txt
 /v_robosuite/*.md
-/v_robosuite_encoder_v2/
+/v_robosuite_encoder_v2/robosuite_encoder_results/
+/v_robosuite_encoder_v2/robosuite_encoder_results_wide_sum/
+/v_robosuite_encoder_v2/*.txt
+/v_robosuite_encoder_v2/*.png
+
 /v_robosuite_encoder/*.png
 /v_robosuite_encoder/robosuite_encoder_results/
 /v_robosuite_encoder/robosuite_encoder_smoke/
 
 # Miscellaneous
 /v3/MEMORY.md
+# boxoban feasibility check: cloned level data and generated results
+/boxoban_feasibility/data/
+/boxoban_feasibility/results/
+/boxoban_feasibility/results_smoke/
+/boxoban_feasibility/
+
+/new_maze_envs_minihack/
