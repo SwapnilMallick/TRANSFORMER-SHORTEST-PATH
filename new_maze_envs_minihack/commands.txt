@@ -1,0 +1,39 @@
+# MazeWalk only (6 layouts)
+python online_cost_transformer.py --layout-sweep layouts/processed --layout-glob "mazewalk_*" \
+  --alpha-sweep 0.0,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.10 --out results_minihack
+
+# Corridor with 12x5 rooms only
+python online_cost_transformer.py --layout-sweep layouts/processed --layout-glob "corridor_*_12x5_*" \
+  --alpha-sweep 0.0,0.01,0.02,0.03,0.04,0.05 --out results_minihack
+
+# One layout
+python online_cost_transformer.py --layout layouts/processed/corridor_r3_12x5_s1_dilate_k4m1.json \
+  --alpha-sweep 0.0,0.01,0.02,0.03,0.04,0.05 --out results_minihack
+
+# Per-env per alpha command
+
+cd new_maze_envs_minihack
+python online_cost_transformer.py \
+  --layout layouts/processed/corridor_r3_12x5_s1_dilate_k4m1.json \
+  --alpha 0.05 \
+  --out results_minihack/corridor_r3_12x5_s1_alpha0.05
+
+
+cd new_maze_envs_minihack
+python online_cost_transformer.py \
+  --layout layouts/processed/mazewalk_15x15_s0_thinwall.json \
+  --alpha 0.05 \
+  --seed 42 \
+  --iters 30 \
+  --k 8 \
+  --max-steps 3000 \
+  --out results_minihack/new_maze_envs_minihack/mazewalk_15x15_s0_thinwall_alpha0.05_seed42
+
+
+mazewalk_9x9_s0_thinwall.json
+mazewalk_9x9_s1_thinwall.json
+mazewalk_9x9_s2_thinwall.json
+mazewalk_15x15_s0_thinwall.json
+mazewalk_15x15_s1_thinwall.json
+mazewalk_15x15_s2_thinwall.json
+mazewalk_9x9_mirror2_s0_thinwall.json

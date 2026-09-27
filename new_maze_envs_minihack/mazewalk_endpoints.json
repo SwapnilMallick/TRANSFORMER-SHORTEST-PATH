@@ -1,0 +1,82 @@
+{
+ "_readme": "Per-layout MazeWalk start/goal in LOGICAL maze cells: [row, col], row 0 = top, col 0 = left (9x9 layouts are 4x4 cells, 15x15 are 7x7). Edit and re-run layout_geometry.py then render_layouts.py. Layouts not listed here use the start/goal stored in layouts/raw. Defaults = ends of each maze's longest shortest path. _domain_L: length of the domain's longer side per family_size (default 1.0); the maze is scaled so passage width = L / logical cells (e.g. 15x15 -> 1.0/7 = 0.143; L = 1.75 would match the 9x9 passage width of 0.25). mazewalk_9x9_mirror2_s0 is derived by make_mirror_layout.py (maze + its mirror image joined by a one-cell bridge); L = 2.25 keeps the 9x9 passage width of 0.25.",
+ "mazewalk_15x15_s0": {
+  "start": [
+   3,
+   4
+  ],
+  "goal": [
+   6,
+   0
+  ]
+ },
+ "mazewalk_15x15_s1": {
+  "start": [
+   4,
+   0
+  ],
+  "goal": [
+   5,
+   6
+  ]
+ },
+ "mazewalk_15x15_s2": {
+  "start": [
+   2,
+   0
+  ],
+  "goal": [
+   3,
+   4
+  ]
+ },
+ "mazewalk_9x9_s0": {
+  "start": [
+   0,
+   0
+  ],
+  "goal": [
+   2,
+   0
+  ]
+ },
+ "mazewalk_9x9_s1": {
+  "start": [
+   0,
+   3
+  ],
+  "goal": [
+   1,
+   1
+  ]
+ },
+ "mazewalk_9x9_s2": {
+  "start": [
+   0,
+   0
+  ],
+  "goal": [
+   1,
+   0
+  ]
+ },
+ "_domain_L": {
+  "mazewalk_9x9": 1.0,
+  "mazewalk_15x15": 1.0,
+  "corridor_r3": 2.0,
+  "corridor_r5": 2.0,
+  "corridor_r3_12x5": 2.0,
+  "corridor_r5_12x5": 2.0,
+  "mazewalk_9x9_mirror2": 2.25
+ },
+ "mazewalk_9x9_mirror2_s0": {
+  "start": [
+   0,
+   0
+  ],
+  "goal": [
+   2,
+   8
+  ]
+ }
+}

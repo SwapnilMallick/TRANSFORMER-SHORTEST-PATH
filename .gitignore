@@ -139,4 +139,12 @@ retry_diagnostics_run.out
 /boxoban_feasibility/results_smoke/
 /boxoban_feasibility/
 
-/new_maze_envs_minihack/
+/new_maze_envs_minihack/results_minihack/
+/new_maze_envs_minihack/tests/
+/new_maze_envs_minihack/results_diag/
+/new_maze_envs_minihack/*.txt/
+/new_maze_envs_minihack/*.png/
+/new_maze_envs_minihack/run_width_ablation.py
+/new_maze_envs_minihack/_baseline/
+
+/mbm_vamp_render/
