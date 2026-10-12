@@ -218,6 +218,7 @@ def main():
 
         records = []
         lengths = []
+        node_counts = []
         for seed in range(args.seeds):
             P, parent, reached, gnode, n = go_explore_rrt(
                 cfg, walls, args.eps, seed,
@@ -231,6 +232,7 @@ def main():
                      length if ok else float("nan"), img)
             if ok:
                 lengths.append(length)
+            node_counts.append(n)
             records.append((seed, ok, length if ok else float("nan"), n, path_pts))
             print(f"  seed {seed:2d}: "
                   f"{'reached' if ok else 'FAILED ':7s}  "
@@ -239,9 +241,13 @@ def main():
         arr = np.array(lengths, float)
         mean = float(arr.mean()) if arr.size else float("nan")
         std = float(arr.std(ddof=1)) if arr.size > 1 else 0.0
+        narr = np.array(node_counts, float)         # nodes explored, over ALL seeds (reached or not)
+        nmean = float(narr.mean()) if narr.size else float("nan")
+        nstd = float(narr.std(ddof=1)) if narr.size > 1 else 0.0
         print(f"  --> {env}: {mean:.3f} +/- {std:.3f}  "
-              f"over {len(lengths)}/{args.seeds} seeds that reached the goal")
-        overall.append((env, mean, std, len(lengths), args.seeds))
+              f"over {len(lengths)}/{args.seeds} seeds that reached the goal  |  "
+              f"nodes explored: {nmean:.1f} +/- {nstd:.1f} (all {len(node_counts)} seeds)")
+        overall.append((env, mean, std, len(lengths), args.seeds, nmean, nstd))
 
         txt = os.path.join(args.out, f"{env}_go_explore_rrt_results.txt")
         with open(txt, "w") as f:
@@ -256,7 +262,11 @@ def main():
             f.write(f"AVERAGE SHORTEST PATH: {mean:.4f} +/- {std:.4f} "
                     f"(sample std) over {len(lengths)}/{args.seeds} successful "
                     f"seeds\n")
-            f.write(f"lengths = {[round(x, 4) for x in lengths]}\n\n")
+            f.write(f"AVERAGE NODES EXPLORED: {nmean:.2f} +/- {nstd:.2f} "
+                    f"(sample std) over all {len(node_counts)}/{args.seeds} seeds "
+                    f"(reached or not)\n")
+            f.write(f"lengths = {[round(x, 4) for x in lengths]}\n")
+            f.write(f"nodes = {node_counts}\n\n")
             for seed, ok, length, n, path_pts in records:
                 f.write("-" * 70 + "\n")
                 if not ok:
@@ -271,16 +281,19 @@ def main():
 
     summ = os.path.join(args.out, "summary.txt")
     with open(summ, "w") as f:
-        f.write("Go-Explore RRT shortest-path length, "
+        f.write("Go-Explore RRT shortest-path length and nodes explored, "
                 "mean +/- sample-std across seeds\n")
-        f.write(f"eps(step)={args.eps}\n\n")
-        for env, mean, std, k_, tot in overall:
-            f.write(f"{env:12s}: {mean:.4f} +/- {std:.4f}  "
-                    f"({k_}/{tot} seeds reached)\n")
+        f.write(f"eps(step)={args.eps}\n")
+        f.write("(path length stats: over seeds that reached the goal; "
+                "nodes-explored stats: over all seeds, reached or not)\n\n")
+        for env, mean, std, k_, tot, nmean, nstd in overall:
+            f.write(f"{env:12s}: length {mean:.4f} +/- {std:.4f}  "
+                    f"({k_}/{tot} seeds reached)  |  nodes {nmean:.1f} +/- {nstd:.1f}\n")
     print(f"\n[summary] saved -> {summ}")
-    print("\n==== SUMMARY (mean +/- std of shortest-path length) ====")
-    for env, mean, std, k_, tot in overall:
-        print(f"  {env:12s}: {mean:.3f} +/- {std:.3f}  ({k_}/{tot} reached)")
+    print("\n==== SUMMARY (mean +/- std of shortest-path length and nodes explored) ====")
+    for env, mean, std, k_, tot, nmean, nstd in overall:
+        print(f"  {env:12s}: length {mean:.3f} +/- {std:.3f}  ({k_}/{tot} reached)  "
+              f"|  nodes {nmean:.1f} +/- {nstd:.1f}")
 
 
 if __name__ == "__main__":

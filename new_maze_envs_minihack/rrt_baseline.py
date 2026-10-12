@@ -91,7 +91,7 @@ def run_rrt(cfg, walls, step, seed, max_nodes=30000, max_samples=2_000_000):
 # --------------------------------------------------------------------------- #
 # Dijkstra shortest path on the generated tree (goal linked to nearby nodes).
 # --------------------------------------------------------------------------- #
-def dijkstra_shortest_path(P, parent, cfg, walls, goal):
+def dijkstra_shortest_path(P, parent, cfg, walls, goal, clearance: float = 0.0):
     n = len(P)
     adj = defaultdict(list)
     for i in range(1, n):
@@ -104,7 +104,7 @@ def dijkstra_shortest_path(P, parent, cfg, walls, goal):
     connected = False
     for i in range(n):
         if (math.hypot(P[i][0] - goal[0], P[i][1] - goal[1]) < cfg.goal_radius
-                and not collides(P[i], goal, walls)):
+                and not collides(P[i], goal, walls, clearance)):
             w = math.hypot(P[i][0] - goal[0], P[i][1] - goal[1])
             adj[i].append((gi, w))
             adj[gi].append((i, w))

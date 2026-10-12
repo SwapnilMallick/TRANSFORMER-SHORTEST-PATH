@@ -1,150 +1,40 @@
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
+# Whitelist: ignore everything, then re-include only Python scripts.
+# Result folders, plots, logs, CSVs, checkpoints etc. are therefore ignored
+# wherever they appear, without having to list each one.
+*
+!*/
+!*.py
+!.gitignore
+!/README.md
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-*.egg
-*.egg-info/
-.eggs/
-build/
-dist/
-.Python
+# Never descend into these, even for .py files (order matters: these must
+# come after the re-includes above).
 
-# Virtual environments
+# Virtual environments / vendored code
 .venv/
 venv/
 env/
 ENV/
+site-packages/
+third_party/
+
+# Python build / cache
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+.eggs/
+build/
+dist/
 
 # Editor / IDE
-*~
 .idea/
 .vscode/
-*.swp
-*.swo
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Model checkpoints / weights / large binaries
-*.pt
-*.pth
-*.ckpt
-*.safetensors
-*.onnx
-*.pkl
-*.h5
-*.npz
-
-# Logs / runs
-*.log
-runs/
-wandb/
-lightning_logs/
-tensorboard/
-
-# Environment files
-.env
-
-# Output files
-/v1/results_go_explore
-/v1/results_rrt
-/v1/step_0.08
-/v1/step_0.15
-/v1/*.csv
-/v1/*.txt
-/v2/4room/
-/v2/8room/
-/v2/decoy/
-/v3/4room/
-/v3/8room/
-/v3/decoy/
-/v3/results_go_explore/
-/v3/results_rrt/
-/v3/mu_ema_median_iqr/
-/v3/*.txt
-/v3/*.png
-
-/new_maze_envs/results_go_explore/
-/new_maze_envs/*.png
-/new_maze_envs/*.txt
-/new_maze_envs/4room
-/new_maze_envs/8room
-/new_maze_envs/decoy
-/new_maze_envs/bug_trap
-/new_maze_envs/perfect_maze
-/new_maze_envs/spiral
-/new_maze_envs/mu_ema_median_iqr
-/new_maze_envs/plots_huber_loss
-/new_maze_envs/plots_field_mae
-/new_maze_envs_v2/4room/
-/new_maze_envs_v2/8room/
-/new_maze_envs_v2/decoy/
-/new_maze_envs_v2/bug_trap/
-/new_maze_envs_v2/perfect_maze/
-/new_maze_envs_v2/spiral/
-/new_maze_envs_v2/mu_ema_median_iqr/
-/new_maze_envs_v2/results_go_explore/
-/new_maze_envs_v2/*.png
-/new_maze_envs_v2/*.txt
-/new_maze_envs_v2/plots_huber_loss/
-/new_maze_envs_v2/plots_field_mae/
-/new_maze_envs_v3/4room/
-/new_maze_envs_v3/8room/
-/new_maze_envs_v3/decoy/
-/new_maze_envs_v3/bug_trap/
-/new_maze_envs_v3/perfect_maze/
-/new_maze_envs_v3/spiral/
-/new_maze_envs_v3/mu_ema_median_iqr/
-/new_maze_envs_v3/results_go_explore/
-/new_maze_envs_v3/*.png
-/new_maze_envs_v3/*.txt
-/new_maze_envs_v3/plots_huber_loss/
-/new_maze_envs_v3/plots_field_mae/
-/new_maze_envs_v4/spiral/
-/new_maze_envs_v4/new_maze_envs_v4/
-/new_maze_envs_v4/retry_diagnostics/
-retry_diagnostics_run.out
-/new_maze_envs_v5/
-/new_maze_envs_v6/new_maze_envs_v6/
-/new_maze_envs_v6/*.pdf
-/new_maze_envs_v6/*.txt
-/new_maze_envs_v6//new_maze_envs_v6/
-/new_maze_envs_v7/bit_star_results/
-/new_maze_envs_v7/*.txt
-/v_robosuite/robosuite_results/
-/v_robosuite/robosuite_results_smoke/
-/v_robosuite/*.txt
-/v_robosuite/*.md
-/v_robosuite_encoder_v2/robosuite_encoder_results/
-/v_robosuite_encoder_v2/robosuite_encoder_results_wide_sum/
-/v_robosuite_encoder_v2/*.txt
-/v_robosuite_encoder_v2/*.png
-
-/v_robosuite_encoder/*.png
-/v_robosuite_encoder/robosuite_encoder_results/
-/v_robosuite_encoder/robosuite_encoder_smoke/
-
-# Miscellaneous
-/v3/MEMORY.md
-# boxoban feasibility check: cloned level data and generated results
-/boxoban_feasibility/data/
-/boxoban_feasibility/results/
-/boxoban_feasibility/results_smoke/
+# Folders and scripts kept out of the repo on purpose
 /boxoban_feasibility/
-
-/new_maze_envs_minihack/results_minihack/
-/new_maze_envs_minihack/tests/
-/new_maze_envs_minihack/results_diag/
-/new_maze_envs_minihack/*.txt/
-/new_maze_envs_minihack/*.png/
-/new_maze_envs_minihack/run_width_ablation.py
-/new_maze_envs_minihack/_baseline/
-
 /mbm_vamp_render/
+/new_maze_envs_v5/
+/new_maze_envs_minihack/tests/
+/new_maze_envs_minihack/_baseline/
+/new_maze_envs_minihack/run_width_ablation.py
